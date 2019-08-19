@@ -6,6 +6,8 @@ import org.apache.hadoop.fs.Path;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Unit test for simple App.
@@ -22,13 +24,14 @@ public class AppTest
         // 1 创建配置信息对象
         Configuration configuration = new Configuration();
 
-        configuration.set("fs.defaultFS","hdfs://localhost:9000");
+        configuration.set("fs.defaultFS","hdfs://10.122.152.50:9000","liangxiaojun");
+
 
         // 2 获取文件系统
         FileSystem fs = null;
         try {
             fs = FileSystem.get(configuration);
-            fs.mkdirs(new Path("/xjliang2"));
+            fs.mkdirs(new Path("/user/liangxiaojun"));
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
@@ -42,5 +45,35 @@ public class AppTest
         // 3 打印文件系统
         //System.out.println(fs.toString());
 
+    }
+    /**
+     * Rigorous Test :-)
+     */
+    @Test
+    public void hadoopMkdir()
+    {
+
+        // 1 创建配置信息对象
+        Configuration configuration = new Configuration();
+
+        //configuration.set("fs.defaultFS","hdfs://10.122.152.50:9000","liangxiaojun");
+        // 2 获取文件系统
+        FileSystem fs = null;
+        try {
+            fs = FileSystem.get(new URI("hdfs://10.122.152.50:9000"),configuration,"hadoop");
+            fs.mkdirs(new Path("/user/liangxiaojun"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fs.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
