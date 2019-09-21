@@ -52,7 +52,7 @@ public class NioOne {
         // 4、绑定连接
         serverSocketChannel.bind(new InetSocketAddress(9090));
 
-        // 5、将通道注册到选择器上,并注册的操作为：“接收”操作
+        // 5、将通道注册到选择器上,并注册的操作为：“接收”操作  accept 有人连接感兴趣
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
         // 6、采用轮询的方式，查询获取“准备就绪”的注册过的操作
